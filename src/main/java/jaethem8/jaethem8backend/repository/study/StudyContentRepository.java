@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface StudyContentRepository extends JpaRepository<StudyContent, Long> {
     public List<StudyContent> findByPostName(String postName);
+
     public void deleteByPostName(String postName);
 }

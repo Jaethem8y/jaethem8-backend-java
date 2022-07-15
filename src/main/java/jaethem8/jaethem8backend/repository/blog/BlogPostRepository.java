@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     public BlogPost findByTitle(String title);
+
     public void deleteByTitle(String title);
 }

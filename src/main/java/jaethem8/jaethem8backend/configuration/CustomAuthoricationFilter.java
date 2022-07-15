@@ -27,6 +27,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class CustomAuthoricationFilter extends OncePerRequestFilter {
     @Autowired
     private Environment env;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals("/login")) {

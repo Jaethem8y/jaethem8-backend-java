@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface BlogContentRepository extends JpaRepository<BlogContent, Long> {
     public List<BlogContent> findContentByPostName(String postName);
+
     public void deleteByPostName(String postName);
 }

@@ -1,5 +1,6 @@
 package jaethem8.jaethem8backend.service.user;
 
+import jaethem8.jaethem8backend.dto.user.UserDTO;
 import jaethem8.jaethem8backend.model.user.User;
 import jaethem8.jaethem8backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User saveUser(UserDTO userDTO) {
+        User user = new User();
+        user.setName("Jaehyeok Choi");
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userRepository.save(user);
     }
 

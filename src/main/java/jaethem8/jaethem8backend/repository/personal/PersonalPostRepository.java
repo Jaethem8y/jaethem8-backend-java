@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonalPostRepository extends JpaRepository<PersonalPost, Long> {
     public PersonalPost findByTitle(String title);
+
     public void deleteByTitle(String title);
 }

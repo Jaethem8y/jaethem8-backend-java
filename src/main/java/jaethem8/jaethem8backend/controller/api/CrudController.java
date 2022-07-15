@@ -17,39 +17,39 @@ public class CrudController {
     private final PersonalService personalService;
     private final StudyService studyService;
 
-    public CrudController(BlogService blogService, PersonalService personalService, StudyService studyService){
+    public CrudController(BlogService blogService, PersonalService personalService, StudyService studyService) {
         this.blogService = blogService;
         this.personalService = personalService;
         this.studyService = studyService;
     }
 
     @GetMapping("/blogPost")
-    public List<BlogPost> getBlogPosts(){
+    public List<BlogPost> getBlogPosts() {
         return blogService.getAllBlogPost();
     }
 
     @GetMapping("/blogPost/{title}")
-    public BlogPost getBlogPostByTitle(@PathVariable String title){
+    public BlogPost getBlogPostByTitle(@PathVariable String title) {
         return blogService.getBlogPostByTitle(title);
     }
 
     @GetMapping("/personalPost")
-    public List<PersonalPost> getPersonalPosts(){
+    public List<PersonalPost> getPersonalPosts() {
         return personalService.getAllPersonalPost();
     }
 
     @GetMapping("/personalPost/{title}")
-    public PersonalPost getPersonalPostByTitle(@PathVariable String title){
+    public PersonalPost getPersonalPostByTitle(@PathVariable String title) {
         return personalService.getPersonalPostByTitle(title);
     }
 
     @GetMapping("/studyPost")
-    public List<StudyPost> getStudyPosts(){
+    public List<StudyPost> getStudyPosts() {
         return studyService.getAllStudyPost();
     }
 
     @GetMapping("/studyPost/{title}")
-    public StudyPost getStudyPostByTitle(@PathVariable String title){
+    public StudyPost getStudyPostByTitle(@PathVariable String title) {
         return studyService.getStudyPostByTitle(title);
     }
 

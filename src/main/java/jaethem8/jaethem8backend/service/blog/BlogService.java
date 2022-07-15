@@ -19,6 +19,8 @@ public interface BlogService {
     public BlogPost addBlogPost(BlogPostDTO blogPostDTO);
 
     public BlogContent addBlogContent(ContentDTO blogContentDTO);
+
     public BlogPost editBlogPost(BlogPostDTO blogPostDTO);
+
     public void deleteBlogPost(BlogPostDTO blogPostDTO);
 }

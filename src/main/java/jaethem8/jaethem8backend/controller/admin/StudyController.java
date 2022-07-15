@@ -22,10 +22,14 @@ public class StudyController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/add/studyPost").toUriString());
         return ResponseEntity.created(uri).body(studyService.addStudyPost(postDTO));
     }
+
     @PostMapping("/edit/studyPost")
-    public StudyPost editStudyPost(@RequestBody PostDTO postDTO){
+    public StudyPost editStudyPost(@RequestBody PostDTO postDTO) {
         return studyService.editStudyPost(postDTO);
     }
+
     @PostMapping("/delete/studyPost")
-    public void deleteStudyPost(@RequestBody PostDTO postDTO){ studyService.deleteStudyPost(postDTO);}
+    public void deleteStudyPost(@RequestBody PostDTO postDTO) {
+        studyService.deleteStudyPost(postDTO);
+    }
 }

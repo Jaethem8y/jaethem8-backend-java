@@ -20,6 +20,8 @@ public interface StudyService {
     public StudyPost addStudyPost(PostDTO studyPostDTO);
 
     public StudyContent addStudyContent(ContentDTO StudyContentDTO);
+
     public StudyPost editStudyPost(PostDTO studyPostDTO);
+
     public void deleteStudyPost(PostDTO postDTO);
 }

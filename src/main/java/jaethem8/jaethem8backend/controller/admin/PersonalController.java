@@ -23,12 +23,14 @@ public class PersonalController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/add/personalPost").toUriString());
         return ResponseEntity.created(uri).body(personalService.addPersonalPost(postDTO));
     }
+
     @PostMapping("/edit/personalPost")
-    public PersonalPost editPersonalPost(@RequestBody PostDTO postDTO){
+    public PersonalPost editPersonalPost(@RequestBody PostDTO postDTO) {
         return personalService.editPersonalPost(postDTO);
     }
+
     @PostMapping("/delete/personalPost")
-    public void deletePersonalPost(@RequestBody PostDTO postDTO){
+    public void deletePersonalPost(@RequestBody PostDTO postDTO) {
         personalService.deletePersonalPost(postDTO);
     }
 }

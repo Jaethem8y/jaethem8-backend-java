@@ -22,10 +22,14 @@ public class BlogController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/add/blogPost").toUriString());
         return ResponseEntity.created(uri).body(blogService.addBlogPost(blogPostDTO));
     }
+
     @PostMapping("/edit/blogPost")
-    public BlogPost editBlogPost(@RequestBody BlogPostDTO blogPostDTO){
+    public BlogPost editBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
         return blogService.editBlogPost(blogPostDTO);
     }
+
     @PostMapping("/delete/blogPost")
-    public void deleteBlogPost(@RequestBody BlogPostDTO blogPostDTO) {blogService.deleteBlogPost(blogPostDTO);}
+    public void deleteBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
+        blogService.deleteBlogPost(blogPostDTO);
+    }
 }

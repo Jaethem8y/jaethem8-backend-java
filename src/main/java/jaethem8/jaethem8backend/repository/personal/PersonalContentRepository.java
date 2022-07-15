@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PersonalContentRepository extends JpaRepository<PersonalContent, Long> {
     public List<PersonalContent> findByPostName(String postName);
+
     public void deleteByPostName(String postName);
 
 }

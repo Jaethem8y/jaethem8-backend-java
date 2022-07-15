@@ -17,7 +17,10 @@ public interface PersonalService {
     public PersonalContent getPersonalContentById(long id);
 
     public PersonalPost addPersonalPost(PostDTO personalPostDTO);
+
     public PersonalContent addPersonalContent(ContentDTO personalContentDTO);
+
     public PersonalPost editPersonalPost(PostDTO personalPostDTO);
+
     public void deletePersonalPost(PostDTO postDTO);
 }
