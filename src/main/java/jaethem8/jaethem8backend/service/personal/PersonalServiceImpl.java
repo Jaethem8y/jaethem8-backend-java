@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class PersonalServiceImpl implements PersonalService {
     @Transactional
     public PersonalPost addPersonalPost(PostDTO personalPostDTO) {
         PersonalPost personalPost = new PersonalPost();
-        personalPost.setDate(new Date(System.currentTimeMillis()));
+        personalPost.setDate(new Timestamp(System.currentTimeMillis()));
         personalPost.setTitle(personalPostDTO.getTitle());
         for (ContentDTO contentDTO : personalPostDTO.getContents()) {
             PersonalContent personalContent = addPersonalContent(contentDTO);

@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class StudyServiceImpl implements StudyService {
     @Transactional
     public StudyPost addStudyPost(PostDTO studyPostDTO) {
         StudyPost studyPost = new StudyPost();
-        studyPost.setDate(new Date(System.currentTimeMillis()));
+        studyPost.setDate(new Timestamp(System.currentTimeMillis()));
         studyPost.setTitle(studyPostDTO.getTitle());
         for (ContentDTO contentDTO : studyPostDTO.getContents()) {
             StudyContent studyContent = addStudyContent(contentDTO);

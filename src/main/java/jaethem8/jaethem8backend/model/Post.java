@@ -3,7 +3,7 @@ package jaethem8.jaethem8backend.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @MappedSuperclass
@@ -15,5 +15,5 @@ public abstract class Post {
     @Column(name = "title", unique = true)
     private String title;
     @Column(name = "pub_date")
-    private Date date;
+    private Timestamp date;
 }
