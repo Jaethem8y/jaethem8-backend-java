@@ -2,6 +2,7 @@ package jaethem8.jaethem8backend.service.study;
 
 import jaethem8.jaethem8backend.dto.ContentDTO;
 import jaethem8.jaethem8backend.dto.PostDTO;
+import jaethem8.jaethem8backend.model.Post;
 import jaethem8.jaethem8backend.model.study.StudyContent;
 import jaethem8.jaethem8backend.model.study.StudyPost;
 import jaethem8.jaethem8backend.repository.study.StudyContentRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,7 +27,9 @@ public class StudyServiceImpl implements StudyService {
     @Override
     @Transactional
     public List<StudyPost> getAllStudyPost() {
-        return studyPostRepository.findAll();
+        List<StudyPost> posts = studyPostRepository.findAll();
+        posts.sort(Comparator.comparing(Post::getDate).reversed());
+        return posts;
     }
 
     @Override
@@ -71,6 +75,7 @@ public class StudyServiceImpl implements StudyService {
         studyContent.setContent(studyContentDTO.getContent());
         studyContent.setLocation(studyContent.getLocation());
         studyContent.setCode(studyContentDTO.getCode());
+        studyContent.setLink(studyContent.getLink());
         studyContent.setStudyPost(studyPost);
         return studyContentRepository.save(studyContent);
     }

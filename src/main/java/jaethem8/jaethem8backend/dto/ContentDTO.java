@@ -11,6 +11,7 @@ public class ContentDTO {
     private String title;
     private int location;
     private String content;
+    private String link;
     private String image;
     private String code;
 }

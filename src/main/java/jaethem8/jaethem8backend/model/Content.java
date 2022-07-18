@@ -14,10 +14,12 @@ public abstract class Content {
     private String postName;
     @Column(name = "location")
     private int location;
-    @Column(name="header")
+    @Column(name = "header")
     private String header;
     @Column(name = "content", length = 16777215, columnDefinition = "mediumtext")
     private String content;
+    @Column(name = "link")
+    private String link;
     @Lob
     @Column(name = "image", length = 16777215, columnDefinition = "mediumtext")
     private String image;

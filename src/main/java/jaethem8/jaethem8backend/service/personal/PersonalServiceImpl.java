@@ -2,6 +2,7 @@ package jaethem8.jaethem8backend.service.personal;
 
 import jaethem8.jaethem8backend.dto.ContentDTO;
 import jaethem8.jaethem8backend.dto.PostDTO;
+import jaethem8.jaethem8backend.model.Post;
 import jaethem8.jaethem8backend.model.personal.PersonalContent;
 import jaethem8.jaethem8backend.model.personal.PersonalPost;
 import jaethem8.jaethem8backend.repository.personal.PersonalContentRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,7 +27,9 @@ public class PersonalServiceImpl implements PersonalService {
     @Override
     @Transactional
     public List<PersonalPost> getAllPersonalPost() {
-        return personalPostRepository.findAll();
+        List<PersonalPost> posts = personalPostRepository.findAll();
+        posts.sort(Comparator.comparing(Post::getDate).reversed());
+        return posts;
     }
 
     @Override
@@ -71,6 +75,7 @@ public class PersonalServiceImpl implements PersonalService {
         personalContent.setContent(personalContentDTO.getContent());
         personalContent.setLocation(personalContent.getLocation());
         personalContent.setCode(personalContentDTO.getCode());
+        personalContent.setLink(personalContent.getLink());
         personalContent.setPersonalPost(personalPost);
         return personalContentRepository.save(personalContent);
     }

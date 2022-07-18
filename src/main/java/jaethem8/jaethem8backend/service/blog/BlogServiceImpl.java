@@ -2,6 +2,7 @@ package jaethem8.jaethem8backend.service.blog;
 
 import jaethem8.jaethem8backend.dto.ContentDTO;
 import jaethem8.jaethem8backend.dto.blog.BlogPostDTO;
+import jaethem8.jaethem8backend.model.Post;
 import jaethem8.jaethem8backend.model.blog.BlogContent;
 import jaethem8.jaethem8backend.model.blog.BlogPost;
 import jaethem8.jaethem8backend.repository.blog.BlogContentRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -24,7 +26,9 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional
     public List<BlogPost> getAllBlogPost() {
-        return blogPostRepository.findAll();
+        List<BlogPost> posts = blogPostRepository.findAll();
+        posts.sort(Comparator.comparing(Post::getDate).reversed());
+        return posts;
     }
 
     @Override
@@ -74,6 +78,7 @@ public class BlogServiceImpl implements BlogService {
         blogContent.setContent(blogContentDTO.getContent());
         blogContent.setCode(blogContentDTO.getCode());
         blogContent.setImage(blogContentDTO.getImage());
+        blogContent.setLink(blogContent.getLink());
         blogContent.setBlogPost(blogPost);
         return blogContentRepository.save(blogContent);
     }
