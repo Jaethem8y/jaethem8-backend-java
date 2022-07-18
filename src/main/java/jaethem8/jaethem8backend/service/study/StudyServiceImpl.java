@@ -73,9 +73,10 @@ public class StudyServiceImpl implements StudyService {
         studyContent.setPostName(studyContentDTO.getTitle());
         studyContent.setImage(studyContentDTO.getImage());
         studyContent.setContent(studyContentDTO.getContent());
-        studyContent.setLocation(studyContent.getLocation());
+        studyContent.setLocation(studyContentDTO.getLocation());
         studyContent.setCode(studyContentDTO.getCode());
-        studyContent.setLink(studyContent.getLink());
+        studyContent.setLink(studyContentDTO.getLink());
+        studyContent.setHeader(studyContentDTO.getHeader());
         studyContent.setStudyPost(studyPost);
         return studyContentRepository.save(studyContent);
     }

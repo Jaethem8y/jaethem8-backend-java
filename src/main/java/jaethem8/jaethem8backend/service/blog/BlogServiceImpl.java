@@ -78,7 +78,8 @@ public class BlogServiceImpl implements BlogService {
         blogContent.setContent(blogContentDTO.getContent());
         blogContent.setCode(blogContentDTO.getCode());
         blogContent.setImage(blogContentDTO.getImage());
-        blogContent.setLink(blogContent.getLink());
+        blogContent.setLink(blogContentDTO.getLink());
+        blogContent.setHeader(blogContentDTO.getHeader());
         blogContent.setBlogPost(blogPost);
         return blogContentRepository.save(blogContent);
     }

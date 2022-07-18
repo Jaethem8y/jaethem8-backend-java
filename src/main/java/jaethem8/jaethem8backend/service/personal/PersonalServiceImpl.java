@@ -73,9 +73,10 @@ public class PersonalServiceImpl implements PersonalService {
         personalContent.setPostName(personalContentDTO.getTitle());
         personalContent.setImage(personalContentDTO.getImage());
         personalContent.setContent(personalContentDTO.getContent());
-        personalContent.setLocation(personalContent.getLocation());
+        personalContent.setLocation(personalContentDTO.getLocation());
         personalContent.setCode(personalContentDTO.getCode());
-        personalContent.setLink(personalContent.getLink());
+        personalContent.setLink(personalContentDTO.getLink());
+        personalContent.setHeader(personalContentDTO.getHeader());
         personalContent.setPersonalPost(personalPost);
         return personalContentRepository.save(personalContent);
     }
