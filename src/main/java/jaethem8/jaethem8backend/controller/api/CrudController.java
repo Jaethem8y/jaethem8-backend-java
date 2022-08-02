@@ -6,10 +6,12 @@ import jaethem8.jaethem8backend.model.study.StudyPost;
 import jaethem8.jaethem8backend.service.blog.BlogService;
 import jaethem8.jaethem8backend.service.personal.PersonalService;
 import jaethem8.jaethem8backend.service.study.StudyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/API")
 public class CrudController {
@@ -17,17 +19,11 @@ public class CrudController {
     private final PersonalService personalService;
     private final StudyService studyService;
 
-    public CrudController(BlogService blogService, PersonalService personalService, StudyService studyService) {
-        this.blogService = blogService;
-        this.personalService = personalService;
-        this.studyService = studyService;
-    }
 
     @GetMapping("/blogPost")
     public List<BlogPost> getBlogPosts() {
         return blogService.getAllBlogPost();
     }
-
     @GetMapping("/blogPost/{title}")
     public BlogPost getBlogPostByTitle(@PathVariable String title) {
         return blogService.getBlogPostByTitle(title);

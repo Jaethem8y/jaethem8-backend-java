@@ -4,14 +4,10 @@ import jaethem8.jaethem8backend.dto.blog.BlogPostDTO;
 import jaethem8.jaethem8backend.model.blog.BlogPost;
 import jaethem8.jaethem8backend.service.blog.BlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +16,8 @@ public class BlogController {
 
     @CrossOrigin
     @PostMapping("/add/blogPost")
-    public ResponseEntity<BlogPost> addBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/add/blogPost").toUriString());
-        return ResponseEntity.created(uri).body(blogService.addBlogPost(blogPostDTO));
+    public BlogPost addBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
+        return blogService.addBlogPost(blogPostDTO);
     }
     @CrossOrigin
     @PostMapping("/edit/blogPost")
