@@ -18,20 +18,16 @@ import java.net.URI;
 public class StudyController {
     private final StudyService studyService;
     @CrossOrigin
-
     @PostMapping("/add/studyPost")
-    public ResponseEntity<StudyPost> addStudyPost(@RequestBody PostDTO postDTO) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/add/studyPost").toUriString());
-        return ResponseEntity.created(uri).body(studyService.addStudyPost(postDTO));
+    public StudyPost addStudyPost(@RequestBody PostDTO postDTO) {
+        return studyService.addStudyPost(postDTO);
     }
     @CrossOrigin
-
     @PostMapping("/edit/studyPost")
     public StudyPost editStudyPost(@RequestBody PostDTO postDTO) {
         return studyService.editStudyPost(postDTO);
     }
     @CrossOrigin
-
     @PostMapping("/delete/studyPost")
     public void deleteStudyPost(@RequestBody PostDTO postDTO) {
         studyService.deleteStudyPost(postDTO);

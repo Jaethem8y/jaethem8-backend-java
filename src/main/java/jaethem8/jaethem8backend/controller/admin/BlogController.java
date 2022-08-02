@@ -25,13 +25,11 @@ public class BlogController {
         return ResponseEntity.created(uri).body(blogService.addBlogPost(blogPostDTO));
     }
     @CrossOrigin
-
     @PostMapping("/edit/blogPost")
     public BlogPost editBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
         return blogService.editBlogPost(blogPostDTO);
     }
     @CrossOrigin
-
     @PostMapping("/delete/blogPost")
     public void deleteBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
         blogService.deleteBlogPost(blogPostDTO);

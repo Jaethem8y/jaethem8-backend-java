@@ -19,9 +19,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok().body(userService.getUsers());
+    public List<User> getUsers() {
+        return userService.getUsers();
     }
 
+    @PostMapping("/user/save")
+    public User saveUser(@RequestBody UserDTO userDTO) {
+        return userService.saveUser(userDTO);
+    }
 }
 
