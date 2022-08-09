@@ -25,7 +25,7 @@ public class BlogPost extends Post {
     @Column(name = "general")
     private String general;
     @JsonManagedReference
-    @OneToMany(mappedBy = "blogPost", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "blogPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BlogContent> blogContents = new ArrayList<>();
 
 }

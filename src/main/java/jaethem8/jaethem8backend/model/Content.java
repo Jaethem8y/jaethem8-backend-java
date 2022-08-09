@@ -10,19 +10,14 @@ public abstract class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "post_name")
-    private String postName;
     @Column(name = "location")
     private int location;
     @Column(name = "header")
     private String header;
-    @Column(name = "content", length = 16777215, columnDefinition = "mediumtext")
-    private String content;
-    @Column(name = "link")
-    private String link;
     @Lob
-    @Column(name = "image", length = 16777215, columnDefinition = "mediumtext")
-    private String image;
-    @Column(name = "code", length = 16777215, columnDefinition = "mediumtext")
+    @Column(name = "content", columnDefinition = "BLOB")
+    private String content;
+    @Lob
+    @Column(name = "code", columnDefinition = "BLOB")
     private String code;
 }

@@ -17,6 +17,7 @@ public class BlogPostDTO {
     private String role;
     private String frontend;
     private String backend;
+    private String description;
     private String general;
     private List<ContentDTO> contents = new ArrayList<>();
 }

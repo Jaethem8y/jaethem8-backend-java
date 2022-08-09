@@ -1,112 +1,98 @@
 package jaethem8.jaethem8backend.service.blog;
 
-import jaethem8.jaethem8backend.dto.ContentDTO;
 import jaethem8.jaethem8backend.dto.blog.BlogPostDTO;
-import jaethem8.jaethem8backend.model.Post;
 import jaethem8.jaethem8backend.model.blog.BlogContent;
+import jaethem8.jaethem8backend.model.blog.BlogImage;
+import jaethem8.jaethem8backend.model.blog.BlogLink;
 import jaethem8.jaethem8backend.model.blog.BlogPost;
-import jaethem8.jaethem8backend.repository.blog.BlogContentRepository;
-import jaethem8.jaethem8backend.repository.blog.BlogPostRepository;
+import jaethem8.jaethem8backend.repository.blog.BlogRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BlogServiceImpl implements BlogService {
-    private final BlogPostRepository blogPostRepository;
-    private final BlogContentRepository blogContentRepository;
-
+    private final BlogRepository blogRepository;
+    private static Logger logger = LoggerFactory.getLogger(BlogServiceImpl.class);
 
     @Override
     @Transactional
-    public List<BlogPost> getAllBlogPost() {
-        List<BlogPost> posts = blogPostRepository.findAll();
-        posts.sort(Comparator.comparing(Post::getDate).reversed());
-        return posts;
+    public List<BlogPostDTO> getAllBlogPost() {
+        List<BlogPost> blogPosts = blogRepository.getAllBlogPost();
+        List<BlogPostDTO> blogPostDTOs = new ArrayList<>();
+
+        blogPosts.forEach(blogPost -> {
+            BlogPostDTO blogPostDTO = new BlogPostDTO();
+            blogPostDTO.setTitle(blogPost.getTitle());
+            blogPostDTO.setRole(blogPost.getRole());
+            blogPostDTO.setDescription(blogPost.getDescription());
+            blogPostDTO.setFrontend(blogPost.getFrontend());
+            blogPostDTO.setBackend(blogPost.getBackend());
+            blogPostDTO.setGeneral(blogPost.getGeneral());
+            blogPostDTOs.add(blogPostDTO);
+        });
+        return blogPostDTOs;
     }
 
     @Override
     @Transactional
-    public List<BlogContent> getBlogContentByPostName(String postName) {
-        return blogContentRepository.findContentByPostName(postName);
+    public BlogPost getBlogPostByTitle(String title) throws Exception {
+        return blogRepository.getBlogPostByTitle(title);
     }
 
     @Override
     @Transactional
-    public BlogPost getBlogPostByTitle(String title) {
-        return blogPostRepository.findByTitle(title);
-    }
+    public BlogPost saveBlogPost(BlogPostDTO blogPostDTO) {
 
-    @Override
-    @Transactional
-    public BlogContent getBlogContentById(long id) {
-        return blogContentRepository.findById(id).get();
-    }
-
-    @Override
-    @Transactional
-    public BlogPost addBlogPost(BlogPostDTO blogPostDTO) {
         BlogPost blogPost = new BlogPost();
-        blogPost.setDate(new Timestamp(System.currentTimeMillis()));
         blogPost.setTitle(blogPostDTO.getTitle());
+        blogPost.setDate(new Timestamp(System.currentTimeMillis()));
         blogPost.setRole(blogPostDTO.getRole());
         blogPost.setFrontend(blogPostDTO.getFrontend());
         blogPost.setBackend(blogPostDTO.getBackend());
         blogPost.setGeneral(blogPostDTO.getGeneral());
-        for (ContentDTO contentDTO : blogPostDTO.getContents()) {
-            BlogContent blogContent = addBlogContent(contentDTO);
-            blogContent.setPostName(blogPost.getTitle());
-            blogContent.setBlogPost(blogPost);
-            blogPost.getBlogContents().add(blogContent);
-        }
-        return blogPostRepository.save(blogPost);
-    }
 
-    @Override
-    @Transactional
-    public BlogContent addBlogContent(ContentDTO blogContentDTO) {
-        BlogContent blogContent = new BlogContent();
-        BlogPost blogPost = blogPostRepository.findByTitle(blogContentDTO.getTitle());
-        blogContent.setPostName(blogContentDTO.getTitle());
-        blogContent.setLocation(blogContentDTO.getLocation());
-        blogContent.setContent(blogContentDTO.getContent());
-        blogContent.setCode(blogContentDTO.getCode());
-        blogContent.setImage(blogContentDTO.getImage());
-        blogContent.setLink(blogContentDTO.getLink());
-        blogContent.setHeader(blogContentDTO.getHeader());
-        blogContent.setBlogPost(blogPost);
-        return blogContentRepository.save(blogContent);
-    }
-
-    @Override
-    @Transactional
-    public BlogPost editBlogPost(BlogPostDTO blogPostDTO) {
-        BlogPost blogPost = blogPostRepository.findByTitle(blogPostDTO.getTitle());
-        blogPost.setRole(blogPostDTO.getRole());
-        blogPost.setFrontend(blogPostDTO.getFrontend());
-        blogPost.setBackend(blogPostDTO.getBackend());
-        blogPost.setGeneral(blogPostDTO.getGeneral());
-        blogContentRepository.deleteByPostName(blogPostDTO.getTitle());
         List<BlogContent> blogContents = new ArrayList<>();
-        for (ContentDTO contentDTO : blogPostDTO.getContents()) {
-            BlogContent blogContent = addBlogContent(contentDTO);
-            blogContent.setPostName(blogPost.getTitle());
-            blogContent.setBlogPost(blogPost);
-            blogContents.add(blogContent);
-        }
-        blogPost.setBlogContents(blogContents);
-        return blogPostRepository.save(blogPost);
-    }
+        blogPostDTO.getContents().forEach(blogContentDTO -> {
+            BlogContent blogContent = new BlogContent();
+            blogContent.setLocation(blogContentDTO.getLocation());
+            blogContent.setHeader(blogContentDTO.getHeader());
+            blogContent.setContent(blogContentDTO.getContent());
+            blogContent.setCode(blogContentDTO.getCode());
 
-    @Override
-    @Transactional
-    public void deleteBlogPost(BlogPostDTO blogPostDTO) {
-        blogPostRepository.deleteByTitle(blogPostDTO.getTitle());
+            List<BlogImage> blogImages = new ArrayList<>();
+            blogContentDTO.getImages().forEach(blogImageDTO -> {
+                BlogImage blogImage = new BlogImage();
+                blogImage.setImage(blogImageDTO.getImage());
+                blogImage.setBlogContent(blogContent);
+                blogImages.add(blogImage);
+            });
+
+            List<BlogLink> blogLinks = new ArrayList<>();
+            blogContentDTO.getLinks().forEach(blogLinkDTO -> {
+                BlogLink blogLink = new BlogLink();
+                blogLink.setTag(blogLinkDTO.getTag());
+                blogLink.setLink(blogLinkDTO.getLink());
+                blogLink.setBlogContent(blogContent);
+                blogLinks.add(blogLink);
+            });
+
+            blogContent.setBlogPost(blogPost);
+            blogContent.setBlogImages(blogImages);
+            blogContent.setBlogLinks(blogLinks);
+            blogContents.add(blogContent);
+        });
+        blogPost.setBlogContents(blogContents);
+
+        return blogRepository.saveBlogPost(blogPost);
     }
 }

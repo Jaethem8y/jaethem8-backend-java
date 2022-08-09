@@ -6,11 +6,12 @@ import javax.persistence.*;
 
 @Data
 @MappedSuperclass
-public class Image {
+public abstract class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
-    @Column(name = "image")
+    @Lob
+    @Column(name = "image", length = 16777215, columnDefinition = "mediumtext")
     private String image;
 }

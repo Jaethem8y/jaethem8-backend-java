@@ -16,4 +16,7 @@ public abstract class Post {
     private String title;
     @Column(name = "pub_date")
     private Timestamp date;
+    @Lob
+    @Column(name = "description", columnDefinition = "BLOB")
+    private String description;
 }
