@@ -8,4 +8,5 @@ public interface BlogRepository {
     public List<BlogPost> getAllBlogPost();
     public BlogPost getBlogPostByTitle(String title) throws Exception;
     public BlogPost saveBlogPost(BlogPost blogPost);
+    public void removeBlogPost(BlogPost blogPost);
 }

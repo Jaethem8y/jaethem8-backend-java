@@ -1,5 +1,6 @@
 package jaethem8.jaethem8backend.repository.blog;
 
+import jaethem8.jaethem8backend.model.blog.BlogContent;
 import jaethem8.jaethem8backend.model.blog.BlogPost;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -10,10 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Slf4j
@@ -23,7 +21,7 @@ public class BlogRepositoryImpl implements BlogRepository {
     private final Session session;
     private static Logger logger = LoggerFactory.getLogger(BlogRepositoryImpl.class);
 
-    public BlogRepositoryImpl(EntityManager em){
+    public BlogRepositoryImpl(EntityManager em) {
         this.em = em;
         this.session = em.unwrap(Session.class);
     }
@@ -50,27 +48,29 @@ public class BlogRepositoryImpl implements BlogRepository {
 
         Root<BlogPost> root = cq.from(BlogPost.class);
 
-        Predicate titleEquals = cb.equal(root.get("title"), title);
+        root.fetch("blogContents", JoinType.LEFT);
+        cq.where(cb.equal(root.get("title"), title));
+        BlogPost blogPost = session.createQuery(cq).getSingleResult();
 
-        cq.select(root)
-                .where(titleEquals);
-
-        List<BlogPost> blogPost = session.createQuery(cq).getResultList();
-
-        if (blogPost.size() == 0) {
-            throw new Exception("BlogPost with given title does not exist");
-        }
-        return blogPost.get(0);
+        return blogPost;
     }
 
     @Override
     public BlogPost saveBlogPost(BlogPost blogPost) {
-        try{
+        try {
             session.saveOrUpdate(blogPost);
             return blogPost;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
+    }
 
+    @Override
+    public void removeBlogPost(BlogPost blogPost) {
+        try {
+            session.delete(blogPost);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

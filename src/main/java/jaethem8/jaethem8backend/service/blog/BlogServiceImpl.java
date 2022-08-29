@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -52,8 +54,21 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional
     public BlogPost saveBlogPost(BlogPostDTO blogPostDTO) {
-
         BlogPost blogPost = new BlogPost();
+        mapBlogPost(blogPostDTO, blogPost);
+        return blogRepository.saveBlogPost(blogPost);
+    }
+
+    @Override
+    @Transactional
+    public BlogPost updateBlogPost(BlogPostDTO blogPostDTO) throws Exception {
+        BlogPost blogPost = blogRepository.getBlogPostByTitle(blogPostDTO.getTitle());
+        mapBlogPost(blogPostDTO, blogPost);
+        return blogRepository.saveBlogPost(blogPost);
+    }
+
+    @Override
+    public BlogPost mapBlogPost(BlogPostDTO blogPostDTO, BlogPost blogPost) {
         blogPost.setTitle(blogPostDTO.getTitle());
         blogPost.setDate(new Timestamp(System.currentTimeMillis()));
         blogPost.setRole(blogPostDTO.getRole());
@@ -77,7 +92,7 @@ public class BlogServiceImpl implements BlogService {
                 blogImages.add(blogImage);
             });
 
-            List<BlogLink> blogLinks = new ArrayList<>();
+            Set<BlogLink> blogLinks = new HashSet<>();
             blogContentDTO.getLinks().forEach(blogLinkDTO -> {
                 BlogLink blogLink = new BlogLink();
                 blogLink.setTag(blogLinkDTO.getTag());
@@ -92,7 +107,14 @@ public class BlogServiceImpl implements BlogService {
             blogContents.add(blogContent);
         });
         blogPost.setBlogContents(blogContents);
+        return blogPost;
+    }
 
-        return blogRepository.saveBlogPost(blogPost);
+    @Override
+    @Transactional
+    public void removeBlogPost(BlogPostDTO blogPostDTO) throws Exception {
+        String title = blogPostDTO.getTitle();
+        BlogPost blogPost =  blogRepository.getBlogPostByTitle(title);
+        blogRepository.removeBlogPost(blogPost);
     }
 }
