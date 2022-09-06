@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jaethem8.jaethem8backend.model.Image;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "blog_image")

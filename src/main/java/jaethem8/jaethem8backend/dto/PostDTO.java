@@ -12,5 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PostDTO {
     private String title;
+    private String description;
     private List<ContentDTO> contents = new ArrayList<>();
 }
