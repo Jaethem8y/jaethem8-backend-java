@@ -14,13 +14,13 @@ public class BlogController {
 
     @CrossOrigin
     @PostMapping("/add/blogPost")
-    public BlogPost saveBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
+    public BlogPostDTO saveBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
         return blogService.saveBlogPost(blogPostDTO);
     }
 
     @CrossOrigin
     @PostMapping("/edit/blogPost")
-    public BlogPost updateBlogPost(@RequestBody BlogPostDTO blogPostDTO) throws Exception {
+    public BlogPostDTO updateBlogPost(@RequestBody BlogPostDTO blogPostDTO) throws Exception {
         return blogService.updateBlogPost(blogPostDTO);
     }
 

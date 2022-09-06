@@ -24,7 +24,7 @@ public class CrudController {
     }
 
     @GetMapping("/blogPost/{title}")
-    public BlogPost getBlogPostByTitle(@PathVariable String title) throws Exception {
+    public BlogPostDTO getBlogPostByTitle(@PathVariable String title) throws Exception {
         return blogService.getBlogPostByTitle(title);
     }
 
@@ -34,12 +34,12 @@ public class CrudController {
     }
 
     @GetMapping("/studyPost/{title}")
-    public StudyPost getStudyPostByTitle(@PathVariable String title) throws Exception {
+    public PostDTO getStudyPostByTitle(@PathVariable String title) throws Exception {
         return studyService.getStudyPostByTitle(title);
     }
 
     @PostMapping("/blogPost/add")
-    public BlogPost saveBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
+    public BlogPostDTO saveBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
         return blogService.saveBlogPost(blogPostDTO);
     }
 }

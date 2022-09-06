@@ -7,10 +7,11 @@ import java.util.List;
 
 public interface BlogService {
     public List<BlogPostDTO> getAllBlogPost();
-    public BlogPost getBlogPostByTitle(String title) throws Exception;
-    public BlogPost saveBlogPost(BlogPostDTO blogPostDTO);
-    public BlogPost updateBlogPost(BlogPostDTO blogPostDTO) throws Exception;
+    public BlogPostDTO getBlogPostByTitle(String title) throws Exception;
+    public BlogPostDTO saveBlogPost(BlogPostDTO blogPostDTO);
+    public BlogPostDTO updateBlogPost(BlogPostDTO blogPostDTO) throws Exception;
     public BlogPost mapBlogPost(BlogPostDTO blogPostDTO, BlogPost blogPost);
+    public BlogPostDTO blogPostToDTO(BlogPost blogPost);
     public void removeBlogPost(BlogPostDTO blogPostDTO) throws Exception;
 
 }

@@ -8,13 +8,15 @@ import java.util.List;
 public interface StudyService {
     public List<PostDTO> getAllStudyPost();
 
-    public StudyPost getStudyPostByTitle(String title) throws Exception;
+    public PostDTO getStudyPostByTitle(String title) throws Exception;
 
-    public StudyPost saveStudyPost(PostDTO postDTO);
+    public PostDTO saveStudyPost(PostDTO postDTO);
 
-    public StudyPost updateStudyPost(PostDTO postDTO) throws Exception;
+    public PostDTO updateStudyPost(PostDTO postDTO) throws Exception;
 
     public StudyPost mapStudyPost(PostDTO postDTO, StudyPost studyPost);
+
+    public PostDTO studyPostToDTO(StudyPost studyPost);
 
     public void removeStudyPost(PostDTO postDTO) throws Exception;
 

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,5 +20,6 @@ public class BlogPostDTO {
     private String backend;
     private String description;
     private String general;
+    private Timestamp pubDate;
     private List<ContentDTO> contents = new ArrayList<>();
 }

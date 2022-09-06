@@ -15,13 +15,13 @@ public class StudyController {
 
     @CrossOrigin
     @PostMapping("/add/studyPost")
-    public StudyPost saveStudyPost(@RequestBody PostDTO postDTO) {
+    public PostDTO saveStudyPost(@RequestBody PostDTO postDTO) {
         return studyService.saveStudyPost(postDTO);
     }
 
     @CrossOrigin
     @PostMapping("/edit/studyPost")
-    public StudyPost updateStudyPost(@RequestBody PostDTO postDTO) throws Exception {
+    public PostDTO updateStudyPost(@RequestBody PostDTO postDTO) throws Exception {
         return studyService.updateStudyPost(postDTO);
     }
 

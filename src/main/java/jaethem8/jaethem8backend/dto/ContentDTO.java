@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContentDTO {
-    private String title;
     private int location;
     private String header;
     private String content;

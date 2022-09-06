@@ -1,5 +1,8 @@
 package jaethem8.jaethem8backend.service.Study;
 
+import jaethem8.jaethem8backend.dto.ContentDTO;
+import jaethem8.jaethem8backend.dto.ImageDTO;
+import jaethem8.jaethem8backend.dto.LinkDTO;
 import jaethem8.jaethem8backend.dto.PostDTO;
 import jaethem8.jaethem8backend.model.study.StudyContent;
 import jaethem8.jaethem8backend.model.study.StudyImage;
@@ -43,22 +46,22 @@ public class StudyServiceImpl implements StudyService {
 
     @Override
     @Transactional
-    public StudyPost getStudyPostByTitle(String title) throws Exception {
-        return studyRepository.getStudyPostByTitle(title);
+    public PostDTO getStudyPostByTitle(String title) throws Exception {
+        return studyPostToDTO(studyRepository.getStudyPostByTitle(title));
     }
 
     @Override
-    public StudyPost saveStudyPost(PostDTO postDTO) {
+    public PostDTO saveStudyPost(PostDTO postDTO) {
         StudyPost studyPost = new StudyPost();
         mapStudyPost(postDTO, studyPost);
-        return studyRepository.saveStudyPost(studyPost);
+        return studyPostToDTO(studyRepository.saveStudyPost(studyPost));
     }
 
     @Override
-    public StudyPost updateStudyPost(PostDTO postDTO) throws Exception {
+    public PostDTO updateStudyPost(PostDTO postDTO) throws Exception {
         StudyPost studyPost = studyRepository.getStudyPostByTitle(postDTO.getTitle());
         mapStudyPost(postDTO, studyPost);
-        return studyRepository.saveStudyPost(studyPost);
+        return studyPostToDTO(studyRepository.saveStudyPost(studyPost));
     }
 
     @Override
@@ -97,6 +100,49 @@ public class StudyServiceImpl implements StudyService {
         });
         studyPost.setStudyContents(studyContents);
         return studyPost;
+    }
+
+    @Override
+    public PostDTO studyPostToDTO(StudyPost studyPost) {
+        PostDTO postDTO = new PostDTO();
+        postDTO.setTitle(studyPost.getTitle());
+        postDTO.setDescription(studyPost.getDescription());
+        postDTO.setPubDate(studyPost.getDate());
+
+        List<ContentDTO> contents = new ArrayList<>();
+
+        studyPost.getStudyContents().forEach(studyContent -> {
+            ContentDTO contentDTO = new ContentDTO();
+            contentDTO.setHeader(studyContent.getHeader());
+            contentDTO.setLocation(studyContent.getLocation());
+            contentDTO.setContent(studyContent.getContent());
+            contentDTO.setCode(studyContent.getCode());
+
+            List<LinkDTO> links = new ArrayList<>();
+
+            studyContent.getStudyLinks().forEach(studyLink -> {
+                LinkDTO linkDTO = new LinkDTO();
+                linkDTO.setLink(studyLink.getLink());
+                linkDTO.setTag(studyLink.getTag());
+                links.add(linkDTO);
+            });
+
+            contentDTO.setLinks(links);
+
+            List<ImageDTO> images = new ArrayList<>();
+
+            studyContent.getStudyImages().forEach(studyImage -> {
+                ImageDTO imageDTO = new ImageDTO();
+                imageDTO.setImage(studyImage.getImage());
+                images.add(imageDTO);
+            });
+
+            contentDTO.setImages(images);
+        });
+
+        postDTO.setContents(contents);
+
+        return postDTO;
     }
 
     @Override

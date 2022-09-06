@@ -1,5 +1,8 @@
 package jaethem8.jaethem8backend.service.blog;
 
+import jaethem8.jaethem8backend.dto.ContentDTO;
+import jaethem8.jaethem8backend.dto.ImageDTO;
+import jaethem8.jaethem8backend.dto.LinkDTO;
 import jaethem8.jaethem8backend.dto.blog.BlogPostDTO;
 import jaethem8.jaethem8backend.model.blog.BlogContent;
 import jaethem8.jaethem8backend.model.blog.BlogImage;
@@ -47,24 +50,26 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public BlogPost getBlogPostByTitle(String title) throws Exception {
-        return blogRepository.getBlogPostByTitle(title);
+    public BlogPostDTO getBlogPostByTitle(String title) throws Exception {
+        blogRepository.getBlogPostByTitle(title);
+
+        return null;
     }
 
     @Override
     @Transactional
-    public BlogPost saveBlogPost(BlogPostDTO blogPostDTO) {
+    public BlogPostDTO saveBlogPost(BlogPostDTO blogPostDTO) {
         BlogPost blogPost = new BlogPost();
         mapBlogPost(blogPostDTO, blogPost);
-        return blogRepository.saveBlogPost(blogPost);
+        return blogPostToDTO(blogRepository.saveBlogPost(blogPost));
     }
 
     @Override
     @Transactional
-    public BlogPost updateBlogPost(BlogPostDTO blogPostDTO) throws Exception {
+    public BlogPostDTO updateBlogPost(BlogPostDTO blogPostDTO) throws Exception {
         BlogPost blogPost = blogRepository.getBlogPostByTitle(blogPostDTO.getTitle());
         mapBlogPost(blogPostDTO, blogPost);
-        return blogRepository.saveBlogPost(blogPost);
+        return blogPostToDTO(blogRepository.saveBlogPost(blogPost));
     }
 
     @Override
@@ -111,10 +116,55 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public BlogPostDTO blogPostToDTO(BlogPost blogPost) {
+        BlogPostDTO blogPostDTO = new BlogPostDTO();
+        blogPostDTO.setTitle(blogPost.getTitle());
+        blogPostDTO.setRole(blogPost.getRole());
+        blogPostDTO.setFrontend(blogPost.getFrontend());
+        blogPostDTO.setBackend(blogPost.getBackend());
+        blogPostDTO.setDescription(blogPost.getDescription());
+        blogPostDTO.setGeneral(blogPost.getGeneral());
+        blogPostDTO.setPubDate(blogPost.getDate());
+
+        List<ContentDTO> contents = new ArrayList<>();
+
+        blogPost.getBlogContents().forEach(blogContent -> {
+            ContentDTO content = new ContentDTO();
+            content.setLocation(blogContent.getLocation());
+            content.setHeader(blogContent.getHeader());
+            content.setCode(blogContent.getCode());
+
+            List<LinkDTO> links = new ArrayList<>();
+
+            blogContent.getBlogLinks().forEach(blogLink -> {
+                LinkDTO linkDTO = new LinkDTO();
+                linkDTO.setLink(blogLink.getLink());
+                linkDTO.setTag(blogLink.getTag());
+                links.add(linkDTO);
+            });
+
+            content.setLinks(links);
+
+            List<ImageDTO> images = new ArrayList<>();
+
+            blogContent.getBlogImages().forEach(blogImage -> {
+                ImageDTO imageDTO = new ImageDTO();
+                imageDTO.setImage(blogImage.getImage());
+                images.add(imageDTO);
+            });
+
+            content.setImages(images);
+        });
+
+        blogPostDTO.setContents(contents);
+        return blogPostDTO;
+    }
+
+    @Override
     @Transactional
     public void removeBlogPost(BlogPostDTO blogPostDTO) throws Exception {
         String title = blogPostDTO.getTitle();
-        BlogPost blogPost =  blogRepository.getBlogPostByTitle(title);
+        BlogPost blogPost = blogRepository.getBlogPostByTitle(title);
         blogRepository.removeBlogPost(blogPost);
     }
 }
