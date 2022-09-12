@@ -138,6 +138,7 @@ public class StudyServiceImpl implements StudyService {
             });
 
             contentDTO.setImages(images);
+            contents.add(contentDTO);
         });
 
         postDTO.setContents(contents);

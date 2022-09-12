@@ -51,9 +51,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional
     public BlogPostDTO getBlogPostByTitle(String title) throws Exception {
-        blogRepository.getBlogPostByTitle(title);
-
-        return null;
+        return blogPostToDTO(blogRepository.getBlogPostByTitle(title));
     }
 
     @Override
@@ -142,7 +140,6 @@ public class BlogServiceImpl implements BlogService {
                 linkDTO.setTag(blogLink.getTag());
                 links.add(linkDTO);
             });
-
             content.setLinks(links);
 
             List<ImageDTO> images = new ArrayList<>();
@@ -152,10 +149,10 @@ public class BlogServiceImpl implements BlogService {
                 imageDTO.setImage(blogImage.getImage());
                 images.add(imageDTO);
             });
-
             content.setImages(images);
-        });
 
+            contents.add(content);
+        });
         blogPostDTO.setContents(contents);
         return blogPostDTO;
     }
