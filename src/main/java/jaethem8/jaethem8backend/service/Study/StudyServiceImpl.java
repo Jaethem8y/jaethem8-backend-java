@@ -68,6 +68,7 @@ public class StudyServiceImpl implements StudyService {
     public StudyPost mapStudyPost(PostDTO postDTO, StudyPost studyPost) {
         studyPost.setTitle(postDTO.getTitle());
         studyPost.setDate(new Timestamp(System.currentTimeMillis()));
+        studyPost.setDescription(postDTO.getDescription());
 
         List<StudyContent> studyContents = new ArrayList<>();
         postDTO.getContents().forEach(contentDTO -> {

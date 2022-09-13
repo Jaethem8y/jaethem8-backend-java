@@ -69,6 +69,8 @@ public class BlogRepositoryImpl implements BlogRepository {
     public void removeBlogPost(BlogPost blogPost) {
         try {
             session.delete(blogPost);
+            session.flush();
+            logger.info("It Has Been Deleted");
         } catch (Exception e) {
             throw e;
         }

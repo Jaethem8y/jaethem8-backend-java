@@ -66,6 +66,9 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     public BlogPostDTO updateBlogPost(BlogPostDTO blogPostDTO) throws Exception {
         BlogPost blogPost = blogRepository.getBlogPostByTitle(blogPostDTO.getTitle());
+        logger.info("WE GOT HERE");
+        blogRepository.removeBlogPost(blogPost);
+        blogPost = new BlogPost();
         mapBlogPost(blogPostDTO, blogPost);
         return blogPostToDTO(blogRepository.saveBlogPost(blogPost));
     }
@@ -78,6 +81,7 @@ public class BlogServiceImpl implements BlogService {
         blogPost.setFrontend(blogPostDTO.getFrontend());
         blogPost.setBackend(blogPostDTO.getBackend());
         blogPost.setGeneral(blogPostDTO.getGeneral());
+        blogPost.setDescription(blogPostDTO.getDescription());
 
         List<BlogContent> blogContents = new ArrayList<>();
         blogPostDTO.getContents().forEach(blogContentDTO -> {
@@ -130,6 +134,7 @@ public class BlogServiceImpl implements BlogService {
             ContentDTO content = new ContentDTO();
             content.setLocation(blogContent.getLocation());
             content.setHeader(blogContent.getHeader());
+            content.setContent(blogContent.getContent());
             content.setCode(blogContent.getCode());
 
             List<LinkDTO> links = new ArrayList<>();
