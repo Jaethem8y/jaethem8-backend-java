@@ -71,7 +71,7 @@ public class BlogServiceImpl implements BlogService {
         blogPost = new BlogPost();
         mapBlogPost(blogPostDTO, blogPost);
         return blogPostToDTO(blogRepository.saveBlogPost(blogPost));
-    }
+       }
 
     @Override
     public BlogPost mapBlogPost(BlogPostDTO blogPostDTO, BlogPost blogPost) {

@@ -51,6 +51,7 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Override
+    @Transactional
     public PostDTO saveStudyPost(PostDTO postDTO) {
         StudyPost studyPost = new StudyPost();
         mapStudyPost(postDTO, studyPost);
@@ -58,8 +59,12 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Override
+    @Transactional
     public PostDTO updateStudyPost(PostDTO postDTO) throws Exception {
         StudyPost studyPost = studyRepository.getStudyPostByTitle(postDTO.getTitle());
+        logger.info(studyPost.getTitle());
+        studyRepository.removeStudyPost(studyPost);
+        studyPost = new StudyPost();
         mapStudyPost(postDTO, studyPost);
         return studyPostToDTO(studyRepository.saveStudyPost(studyPost));
     }
@@ -85,6 +90,7 @@ public class StudyServiceImpl implements StudyService {
                 studyImage.setStudyContent(studyContent);
                 studyImages.add(studyImage);
             });
+            studyContent.setStudyImages(studyImages);
 
             Set<StudyLink> studyLinks = new HashSet<>();
             contentDTO.getLinks().forEach(linkDTO -> {
@@ -95,7 +101,6 @@ public class StudyServiceImpl implements StudyService {
             });
 
             studyContent.setStudyPost(studyPost);
-            studyContent.setStudyImages(studyImages);
             studyContent.setStudyLinks(studyLinks);
             studyContents.add(studyContent);
         });

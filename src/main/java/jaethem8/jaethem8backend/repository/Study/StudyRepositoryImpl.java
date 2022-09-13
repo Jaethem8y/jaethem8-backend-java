@@ -71,6 +71,8 @@ public class StudyRepositoryImpl implements StudyRepository {
     public void removeStudyPost(StudyPost studyPost) {
         try {
             session.delete(studyPost);
+            session.flush();
+            logger.info("It Has Been Deleted");
         } catch (Exception e) {
             throw e;
         }
