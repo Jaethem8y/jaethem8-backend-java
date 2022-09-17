@@ -127,9 +127,7 @@ public class BlogServiceImpl implements BlogService {
         blogPostDTO.setDescription(blogPost.getDescription());
         blogPostDTO.setGeneral(blogPost.getGeneral());
         blogPostDTO.setPubDate(blogPost.getDate());
-
         List<ContentDTO> contents = new ArrayList<>();
-
         blogPost.getBlogContents().forEach(blogContent -> {
             ContentDTO content = new ContentDTO();
             content.setLocation(blogContent.getLocation());
@@ -146,9 +144,7 @@ public class BlogServiceImpl implements BlogService {
                 links.add(linkDTO);
             });
             content.setLinks(links);
-
             List<ImageDTO> images = new ArrayList<>();
-
             blogContent.getBlogImages().forEach(blogImage -> {
                 ImageDTO imageDTO = new ImageDTO();
                 imageDTO.setImage(blogImage.getImage());
