@@ -38,8 +38,4 @@ public class CrudController {
         return studyService.getStudyPostByTitle(title);
     }
 
-    @PostMapping("/blogPost/add")
-    public BlogPostDTO saveBlogPost(@RequestBody BlogPostDTO blogPostDTO) {
-        return blogService.saveBlogPost(blogPostDTO);
-    }
 }
