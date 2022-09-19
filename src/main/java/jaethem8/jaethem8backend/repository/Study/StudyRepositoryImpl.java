@@ -35,6 +35,7 @@ public class StudyRepositoryImpl implements StudyRepository {
         Root<StudyPost> root = cq.from(StudyPost.class);
 
         cq.select(root);
+        cq.orderBy(cb.desc(root.get("date")));
 
         TypedQuery<StudyPost> query = session.createQuery(cq);
         List<StudyPost> resultList = query.getResultList();

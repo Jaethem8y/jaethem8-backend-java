@@ -34,6 +34,7 @@ public class BlogRepositoryImpl implements BlogRepository {
         Root<BlogPost> root = cq.from(BlogPost.class);
 
         cq.select(root);
+        cq.orderBy(cb.desc(root.get("date")));
 
         TypedQuery<BlogPost> query = session.createQuery(cq);
         List<BlogPost> resultList = query.getResultList();
