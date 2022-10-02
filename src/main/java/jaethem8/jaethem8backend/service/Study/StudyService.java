@@ -13,6 +13,4 @@ public interface StudyService {
     public StudyPost mapStudyPost(PostDTO postDTO, StudyPost studyPost);
     public PostDTO studyPostToDTO(StudyPost studyPost);
     public void removeStudyPost(PostDTO postDTO) throws Exception;
-
-
 }

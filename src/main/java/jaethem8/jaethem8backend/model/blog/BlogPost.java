@@ -2,16 +2,11 @@ package jaethem8.jaethem8backend.model.blog;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jaethem8.jaethem8backend.model.Post;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "blog_post")

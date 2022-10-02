@@ -6,7 +6,6 @@ import jaethem8.jaethem8backend.model.Link;
 
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "blog_link")
